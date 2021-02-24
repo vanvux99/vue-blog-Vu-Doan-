@@ -122,6 +122,8 @@
 <script>
 import axios from "axios";
 
+var source_link = "http://localhost:4000/blogs";
+
 export default {
   props: ["title"],
 
@@ -166,7 +168,7 @@ export default {
 
   methods: {
     postBlog: function () {
-      axios.post("http://localhost:3000/blogs", this.form).then(() => {});
+      axios.post(source_link, this.form).then(() => {});
     },
 
     clear: function () {
@@ -181,12 +183,12 @@ export default {
 
     getBlog: function () {
       axios
-        .get("http://localhost:3000/blogs")
+        .get(source_link)
         .then((response) => (this.form = response.data));
     },
 
     updateBlog: function (data, id) {
-      axios.put("http://localhost:3000/blogs" + id, data);
+      axios.put(source_link + id, data);
     },
   },
 };

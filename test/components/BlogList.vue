@@ -90,9 +90,9 @@
         <tr v-for="blog in blogs" :key="blog.id">
           <th scope="row">{{ blog.id }}</th>
           <td>{{ blog.title }}</td>
-          <td>{{ blog.category }}</td>
-          <td>{{ blog.public }}</td>
-          <td>{{ blog.position }}</td>
+          <td>{{ changeCategory(blog.category) }}</td>
+          <td>{{ changePublic(blog.public) }}</td>
+          <td>{{ changePosition(blog.position) }}</td>
           <td>{{ blog.data_pubblic }}</td>
           <td>
             <nuxt-link to="/blogs/edit">Edit</nuxt-link>
@@ -106,6 +106,7 @@
               Delete
             </button>
           </td>
+          <td>{{ blog.position }}</td>
         </tr>
       </tbody>
     </table>
@@ -115,7 +116,8 @@
 <script>
 import axios from "axios";
 
-const resource_url = "http://localhost:3000/blogs"
+var source_link = "http://localhost:4000/blogs";
+
 
 export default {
   props: ["isVisible"],
@@ -134,6 +136,13 @@ export default {
         { text: "Giải trí", value: "4" },
         { text: "Thể thao", value: "5" },
       ],
+
+      positions: [
+        { text: "Việt Nam", value: "1" },
+        { text: "Châu Á", value: "2" },
+        { text: "Châu Âu", value: "3" },
+        { text: "Châu Mỹ", value: "4" },
+      ],
     };
   },
 
@@ -144,12 +153,18 @@ export default {
   methods: {
     getBlogs: function () {
       axios
-        .get("http://localhost:3000/blogs")
+        .get(source_link)
         .then((response) => (this.blogs = response.data));
+
+        // var a = this.blogs;if (a) {
+        //   var abc = a.filter( value1111 => { value1111 });
+          
+        // }
+        console.log(this.blogs.length);
     },
 
     deleteBlog: function (id) {
-      axios.delete("http://localhost:3000/blogs/" + id).then(() => {
+      axios.delete(source_link + id).then(() => {
         this.getBlogs();
       });
     },
@@ -169,6 +184,86 @@ export default {
 
       return this.filteredBlogs;
     },
+
+    /**
+     * change id => category name
+     */
+    changeCategory: function (categoryIndex) {
+      let result = ""
+
+      if (categoryIndex > 0) {
+        switch (categoryIndex) {
+          case 1:
+            result = "Thời sự"
+            break;
+          case 2:
+            result = "Thế giới"
+            break;
+          case 3:
+            result = "Kinh doanh"
+            break;
+          case 4:
+            result = "Giải trí"
+            break;
+          case 5:
+            result = "Thể thao"
+            break;
+          default:
+            result = "error"
+            break;
+        }
+      } else {
+        return "error"
+      }
+
+      return result
+    },
+
+    /**
+     * change index default => public name
+     */
+    changePublic: function (boolIndex) {
+      let result = ""
+
+      switch (boolIndex) {
+        case false:
+          result = "No"
+          break;
+        case true:
+          result = "Yes"
+          break;
+        default:
+          result = "error"
+          break;
+      }
+
+      return result
+    },
+
+    /**
+     * change id => category name
+     */
+    changePosition: function (arrayIndex) {
+      // let lengthPositions = this.positions.length;
+      // let lengthArrayInput = arrayIndex.length;
+      
+        if (arrayIndex) {
+          // for (let index = 0; index < lengthPositions; index++) {
+          //   for (let indexArray = 0; indexArray < lengthArrayInput; indexArray++) {
+          //     if (arrayIndex[indexArray] == this.positions.value) {
+          //       return this.positions.text
+          //     }
+          //   }
+          //  }
+        }
+      
+      let abc = arrayIndex
+      console.log(abc);
+    },
+
+
   },
 };
+
+
 </script>
