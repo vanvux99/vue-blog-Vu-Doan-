@@ -92,7 +92,7 @@
           <td>{{ blog.title }}</td>
           <td>{{ changeCategory(blog.category) }}</td>
           <td>{{ changePublic(blog.public) }}</td>
-          <td>{{ changePosition(blog.position) }}</td>
+          <td>{{ getPosition(blog.position) }}</td>
           <td>{{ blog.data_pubblic }}</td>
           <td>
             <nuxt-link to="/blogs/edit">Edit</nuxt-link>
@@ -106,7 +106,6 @@
               Delete
             </button>
           </td>
-          <td>{{ blog.position }}</td>
         </tr>
       </tbody>
     </table>
@@ -138,10 +137,10 @@ export default {
       ],
 
       positions: [
-        { text: "Việt Nam", value: "1" },
-        { text: "Châu Á", value: "2" },
-        { text: "Châu Âu", value: "3" },
-        { text: "Châu Mỹ", value: "4" },
+        { text: "Việt Nam", value: 1 },
+        { text: "Châu Á", value: 2 },
+        { text: "Châu Âu", value: 3 },
+        { text: "Châu Mỹ", value: 4 },
       ],
     };
   },
@@ -191,7 +190,6 @@ export default {
     changeCategory: function (categoryIndex) {
       let result = ""
 
-      if (categoryIndex > 0) {
         switch (categoryIndex) {
           case 1:
             result = "Thời sự"
@@ -209,14 +207,21 @@ export default {
             result = "Thể thao"
             break;
           default:
-            result = "error"
+            result = "Chưa xác định"
             break;
         }
-      } else {
-        return "error"
-      }
 
       return result
+    },
+
+    getPosition(positions) {
+      if (!positions || !Array.isArray(positions)) {
+        return ''
+      }
+      return positions.map(position => { 
+        const item = this.positions.find(e => e.value === position)
+        return item ? item.text : ''
+      }).join(',')
     },
 
     /**
@@ -232,9 +237,6 @@ export default {
         case true:
           result = "Yes"
           break;
-        default:
-          result = "error"
-          break;
       }
 
       return result
@@ -245,20 +247,20 @@ export default {
      */
     changePosition: function (arrayIndex) {
       // let lengthPositions = this.positions.length;
-      // let lengthArrayInput = arrayIndex.length;
-      
-        if (arrayIndex) {
-          // for (let index = 0; index < lengthPositions; index++) {
-          //   for (let indexArray = 0; indexArray < lengthArrayInput; indexArray++) {
-          //     if (arrayIndex[indexArray] == this.positions.value) {
-          //       return this.positions.text
-          //     }
-          //   }
-          //  }
-        }
-      
-      let abc = arrayIndex
-      console.log(abc);
+      // let lengthArrayInput = Array.from(arrayIndex).length;
+        
+      // if (arrayIndex) {
+      //   for (let index = 0; index < lengthPositions; index++) {
+      //     for (let indexArray = 0; indexArray < lengthArrayInput; indexArray++) {
+      //       if (arrayIndex[indexArray] == this.positions.value) {
+      //         return this.positions.text
+      //       }
+      //     }
+      //  }
+      // }
+
+      // let abc = arrayIndex
+      // console.log(Array.from(arrayIndex)[0]);
     },
 
 

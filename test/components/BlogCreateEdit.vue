@@ -168,7 +168,9 @@ export default {
 
   methods: {
     postBlog: function () {
+      console.warn(this.form)
       axios.post(source_link, this.form).then(() => {});
+      // check thông báo thành công, hoặc thất bại, chuyển người dùng đi tới trang chủ hoặc quay lại
     },
 
     clear: function () {
@@ -182,9 +184,11 @@ export default {
     },
 
     getBlog: function () {
-      axios
-        .get(source_link)
-        .then((response) => (this.form = response.data));
+      if (this.$route.params.id) {
+        axios
+          .get(source_link + this.$route.params.id)
+          .then((response) => (this.form = response.data))
+      }
     },
 
     updateBlog: function (data, id) {

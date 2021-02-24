@@ -10,14 +10,7 @@
 </template>
 
 <script>
-// import Logo from '@/components/logo.vue'
-// import Title from '@/components/title.vue'
-
 export default {
-    // components: {
-    //     'header-logo': Logo,
-    //     'header-title': Title,
-    // }
 }
 </script>
 

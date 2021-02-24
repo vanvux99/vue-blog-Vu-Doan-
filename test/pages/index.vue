@@ -8,7 +8,7 @@
 export default {}
 </script>
 
-<style>
+<style>x
 .container {
   margin: 0 auto;
   display: flex;
