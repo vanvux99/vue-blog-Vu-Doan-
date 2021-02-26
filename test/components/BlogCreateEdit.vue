@@ -35,6 +35,7 @@
       <label class="col-2 ml-2">Hình ảnh</label>
       <div class="col-10">
         <button>Choose files</button>
+        <label> Không có tệp nào được chọn </label>
       </div>
     </div>
 
@@ -105,7 +106,7 @@
             v-if="title === 'Edit Blogs'"
             type="button"
             class="btn btn-success mr-2"
-            @click="updateBlog(this.form)"
+            @click="updateBlog(this.form, this.form.id)"
           >
             Submit
           </button>
@@ -122,7 +123,7 @@
 <script>
 import axios from "axios";
 
-var source_link = "http://localhost:4000/blogs";
+var source_link = "http://localhost:3000/blogs";
 
 export default {
   props: ["title"],
@@ -168,9 +169,9 @@ export default {
 
   methods: {
     postBlog: function () {
-      console.warn(this.form)
-      axios.post(source_link, this.form).then(() => {});
-      // check thông báo thành công, hoặc thất bại, chuyển người dùng đi tới trang chủ hoặc quay lại
+      axios.post(source_link, this.form).then(() => {
+        alert("thêm thành công")
+      })
     },
 
     clear: function () {
@@ -192,6 +193,7 @@ export default {
     },
 
     updateBlog: function (data, id) {
+      console.log(data, id);
       axios.put(source_link + id, data);
     },
   },

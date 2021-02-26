@@ -4,7 +4,7 @@
       <img src="https://digidinos.com/assets/images/logo.png" id="img"/>
     </div>
     <div class="col-9">
-      <h1  class="mt-3">Blogs Management</h1>
+      <h1 class="mt-3">Blogs Management</h1>
     </div>
   </div>
 </template>
@@ -26,5 +26,9 @@ export default {
 
     #text-title.large  {
         text-align: center;
+    }
+    
+    h1 {
+      text-align: center;
     }
 </style>

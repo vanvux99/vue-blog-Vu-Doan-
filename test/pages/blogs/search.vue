@@ -1,5 +1,6 @@
 <template>
-  <blog-list :isVisible="isVisible"></blog-list>
+    <blog-list :isVisible="isVisible"></blog-list>
+
 </template>
 
 <script>
@@ -12,6 +13,10 @@ export default {
     };
   },
 
+  methods : { 
+        filteredBlogsFunction: Function,
+    },
+    
   components: { BlogList },
 };
 </script>

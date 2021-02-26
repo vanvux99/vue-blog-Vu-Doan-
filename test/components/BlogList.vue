@@ -2,146 +2,81 @@
   <div class="container-fluid">
     <!-- search -->
     <div v-if="isVisible" class="container-fluid mb-3 px-0">
-      <h3>Search Blogs</h3>
-
-      <div class="row my-5">
-        <div class="col-2">
-          <label>Tiêu đề</label>
-        </div>
-
-        <div class="col-10">
-          <input
-            class="w-100"
-            placeholder="Tiêu đề"
-            v-model="titleSearchString"
-          />
-        </div>
-      </div>
-
-      <button
-        type="button"
-        @click="filteredBlog()"
-        class="btn btn-success mb-3"
-      >
-        Search
-      </button>
-
-      <table v-if="filteredBlogs.length > 0" class="table table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Tin</th>
-            <th scope="col">Loại</th>
-            <th scope="col">Trạng thái</th>
-            <th scope="col">Vị trí</th>
-            <th scope="col">Ngày public</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- chưa gọi ra được tên của cate và pos -->
-          <tr v-for="blog in filteredBlogs" :key="blog.id">
-            <th scope="row">{{ blog.id }}</th>
-            <td>{{ blog.title }}</td>
-            <td>{{ blog.category }}</td>
-            <td>{{ blog.public }}</td>
-            <td>{{ blog.position }}</td>
-            <td>{{ blog.data_pubblic }}</td>
-            <td>
-              <button
-                type="button"
-                class="btn"
-                @click="updateBlog(blog, blog.id)"
-              >
-                Edit
-              </button>
-            </td>
-            <td>
-              <button
-                type="button"
-                class="btn btn-outline-danger"
-                @click="deleteBlog(blog.id)"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <search-blog :filteredBlogsFunction = "filteredBlogs" ></search-blog>
+      <data-table></data-table>
     </div>
 
     <!-- list -->
     <h3>List Blogs</h3>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Tin</th>
-          <th scope="col">Loại</th>
-          <th scope="col">Trạng thái</th>
-          <th scope="col">Vị trí</th>
-          <th scope="col">Ngày public</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="blog in blogs" :key="blog.id">
-          <th scope="row">{{ blog.id }}</th>
-          <td>{{ blog.title }}</td>
-          <td>{{ changeCategory(blog.category) }}</td>
-          <td>{{ changePublic(blog.public) }}</td>
-          <td>{{ getPosition(blog.position) }}</td>
-          <td>{{ blog.data_pubblic }}</td>
-          <td>
-            <nuxt-link to="/blogs/edit">Edit</nuxt-link>
-          </td>
-          <td>
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              @click="deleteBlog(blog.id)"
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <data-table></data-table>
   </div>
 </template>
 
 <script>
+
+// import 
 import axios from "axios";
+import Search from "@/pages/blogs/search.vue"
+import DataTable from "./list.vue"
 
-var source_link = "http://localhost:4000/blogs";
 
+//#region  variables and child function
+var source_link = "http://localhost:3000/blogs/";
 
+const positionArray = [
+  { text: "Việt Nam", value: 1 },
+  { text: "Châu Á", value: 2 },
+  { text: "Châu Âu", value: 3 },
+  { text: "Châu Mỹ", value: 4 },
+]
+
+const categoriesArray = [
+  { text: "Thời sự", value: 1 },
+  { text: "Thế giới", value: 2 },
+  { text: "Kinh doanh", value: 3 },
+  { text: "Giải trí", value: 4 },
+  { text: "Thể thao", value: 5 },
+]
+
+const publicArray = [
+  { text: "Yes", value: true },
+  { text: "No", value: false },
+]
+
+/**
+ * method use for Categori, Public and Position
+ * it return string 
+ */
+var getCategoriPublicPosition = (value, array) => {
+  if (!value) return undefined
+  if (typeof value == "object") {
+    if (!value || !Array.isArray(value)) return undefined
+
+    return value.map(element => { 
+      const item = array.find(e => e.value === element)
+      return item ? item.text : ''
+    }).join(',')
+  }
+  let result = array.find( e => e.value == value)
+
+  return result ? result.text : "Chưa được phân loại"
+}
+//#endregion
+
+// export
 export default {
   props: ["isVisible"],
+
+  components: {
+    "search-blog" : Search,
+    "data-table" : DataTable,
+  },
 
   data() {
     return {
       blogs: [],
       titleSearchString: "",
       filteredBlogs: [],
-
-      //categories
-      categories: [
-        { text: "Thời sự", value: "1" },
-        { text: "Thế giới", value: "2" },
-        { text: "Kinh doanh", value: "3" },
-        { text: "Giải trí", value: "4" },
-        { text: "Thể thao", value: "5" },
-      ],
-
-      positions: [
-        { text: "Việt Nam", value: 1 },
-        { text: "Châu Á", value: 2 },
-        { text: "Châu Âu", value: 3 },
-        { text: "Châu Mỹ", value: 4 },
-      ],
     };
   },
 
@@ -165,6 +100,7 @@ export default {
     deleteBlog: function (id) {
       axios.delete(source_link + id).then(() => {
         this.getBlogs();
+        alert("xóa thành công")
       });
     },
 
@@ -187,80 +123,23 @@ export default {
     /**
      * change id => category name
      */
-    changeCategory: function (categoryIndex) {
-      let result = ""
-
-        switch (categoryIndex) {
-          case 1:
-            result = "Thời sự"
-            break;
-          case 2:
-            result = "Thế giới"
-            break;
-          case 3:
-            result = "Kinh doanh"
-            break;
-          case 4:
-            result = "Giải trí"
-            break;
-          case 5:
-            result = "Thể thao"
-            break;
-          default:
-            result = "Chưa xác định"
-            break;
-        }
-
-      return result
-    },
-
-    getPosition(positions) {
-      if (!positions || !Array.isArray(positions)) {
-        return ''
-      }
-      return positions.map(position => { 
-        const item = this.positions.find(e => e.value === position)
-        return item ? item.text : ''
-      }).join(',')
+    changeCategory: function (categoryNumber) {
+      return getCategoriPublicPosition(categoryNumber, categoriesArray)
     },
 
     /**
      * change index default => public name
      */
-    changePublic: function (boolIndex) {
-      let result = ""
+    changePublic: function (publicBool) {
 
-      switch (boolIndex) {
-        case false:
-          result = "No"
-          break;
-        case true:
-          result = "Yes"
-          break;
-      }
-
-      return result
+      return getCategoriPublicPosition(publicBool, publicArray)
     },
 
     /**
      * change id => category name
      */
     changePosition: function (arrayIndex) {
-      // let lengthPositions = this.positions.length;
-      // let lengthArrayInput = Array.from(arrayIndex).length;
-        
-      // if (arrayIndex) {
-      //   for (let index = 0; index < lengthPositions; index++) {
-      //     for (let indexArray = 0; indexArray < lengthArrayInput; indexArray++) {
-      //       if (arrayIndex[indexArray] == this.positions.value) {
-      //         return this.positions.text
-      //       }
-      //     }
-      //  }
-      // }
-
-      // let abc = arrayIndex
-      // console.log(Array.from(arrayIndex)[0]);
+      return getCategoriPublicPosition(arrayIndex, positionArray)
     },
 
 
