@@ -29,7 +29,6 @@
 <script>
 import BlogList from '~/components/BlogList/BlogList';
 export default {
-    // call back tới filteredBlog() và titleSearchString: chưa làm được
     data() {
       return {
         isVisible: true,
@@ -39,11 +38,18 @@ export default {
       };
     },
 
+  /** event search to components partner
+     * @author Vu Doan
+     * @param  
+     * @return update data into page edit
+     * 
+     * @since 1-3-2021
+     */
     methods : { 
-            filteredBlog() {
-              this.$emit("search", this.form)
-            }
-        },
+      filteredBlog() {
+        this.$emit("search", this.form)
+      }
+    },
         
     components: { BlogList },
 }

@@ -18,7 +18,7 @@ import axios from "axios";
 import Search from "./search.vue"
 import DataTable from "./list.vue"
 
-const source_link = "http://localhost:3000/blogs/";
+const SOURCE_LINK = "http://localhost:3000/blogs/";
 
 export default {
   props:[
@@ -44,6 +44,14 @@ export default {
     },
 
   methods: {
+    
+    /** search API 
+     * @author Vu Doan
+     * @param  <form>
+     * @return data of server
+     * 
+     * @since 1-3-2021
+     */
     searchAPI(form) {
             axios
         .get(source_link, {
@@ -54,6 +62,13 @@ export default {
         .then((response) => (this.blogs = response.data));
     },
 
+    /** title search
+     * @author Vu Doan
+     * @param  
+     * @return title use input
+     * 
+     * @since 1-3-2021
+     */
     filteredBlog: function () {
       if (!this.titleSearchString) {
         return this.blogs;
@@ -70,15 +85,19 @@ export default {
       return this.filteredBlogs;
     },
 
+    /** call API take data server
+     * @author Vu Doan
+     * @param  
+     * @return data of server by SOURCE_LINK
+     * 
+     * @since 1-3-2021
+     */
     getBlogs: function () {
       axios
-        .get(source_link)
+        .get(SOURCE_LINK)
         .then((response) => (this.blogs = response.data));
     },
-
-
   },
 };
-
 
 </script>

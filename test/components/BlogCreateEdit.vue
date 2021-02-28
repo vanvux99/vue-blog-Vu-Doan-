@@ -234,21 +234,29 @@ export default {
         { 
           let value = document.querySelector(id).value
           let formGroup = form.querySelector(".form-group")
-          let err = this.getParent(checkId, formGroup)
+          let err //= this.getParent(checkId, formGroup)
           console.log(err);
-          err.querySelector(".messError");
-          if(value == null){
-            return err.innerHTML = ""
-          }
-          else {
-            return err.innerHTML = getType.text
-          }
+          // không match được
+          // err.querySelector(".messError");
+          // if(value == null){
+          //   return err.innerHTML = ""
+          // }
+          // else {
+          //   return err.innerHTML = getType.text
+          // }
         }
         else  return false
       }
       else  return false
     },
 
+    /** use event click submit button
+     * @author Vu Doan
+     * @param  
+     * @return "thêm thành công" or show error
+     * 
+     * @since 1-3-2021
+     */
     postBlog: function () {
 
       if(this.checkValid("#title") == false)
@@ -267,6 +275,13 @@ export default {
       
     },
 
+    /** clear value into element
+     * @author Vu Doan
+     * @param  
+     * @return 
+     * 
+     * @since 1-3-2021
+     */
     clear: function () {
       this.form.title = "";
       this.form.des = "";
@@ -277,6 +292,13 @@ export default {
       this.form.data_pubblic = "";
     },
 
+    /** call API take data server
+     * @author Vu Doan
+     * @param  
+     * @return data of server by SOURCE_LINK
+     * 
+     * @since 1-3-2021
+     */
     getBlog: function () {
       if (this.$route.params.id) {
         axios
@@ -285,15 +307,17 @@ export default {
       }
     },
 
-    updateBlog: function (data, id) {
-      //console.log(data, id);
-      //axios.put(source_link + id, data);
-      alert("Sửa thành công")
+    /** edit blog
+     * @author Vu Doan
+     * @param  
+     * @return update data into page edit
+     * 
+     * @since 1-3-2021
+     */
+    updateBlog: function ( id) {
+      this.postBlog()
       this.$router.push('/blogs/list')
     },
   },
 };
-
-
-
 </script>
