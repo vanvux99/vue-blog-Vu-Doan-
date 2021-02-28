@@ -1,22 +1,17 @@
 <template>
     <blog-list :isVisible="isVisible"></blog-list>
-
 </template>
 
 <script>
-import BlogList from "@/components/BlogList.vue";
+import BlogList from '~/components/BlogList/BlogList.vue';
 
 export default {
-  data() {
+  data:function (){ 
     return {
-      isVisible: true,
-    };
+        isVisible:true,
+    }
   },
 
-  methods : { 
-        filteredBlogsFunction: Function,
-    },
-    
   components: { BlogList },
 };
 </script>

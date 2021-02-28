@@ -11,7 +11,7 @@
           <input
             class="w-100"
             placeholder="Tiêu đề"
-            v-model="titleSearchString"
+            v-model="form.title"
           />
         </div>
       </div>
@@ -27,16 +27,22 @@
 </template>
 
 <script>
+import BlogList from '~/components/BlogList/BlogList';
 export default {
-    // call back tới filteredBlog() và titleSearchString
+    // call back tới filteredBlog() và titleSearchString: chưa làm được
     data() {
-        return {
+      return {
         isVisible: true,
-        };
+        form: {
+          title: ''
+        }
+      };
     },
 
     methods : { 
-            filteredBlogsFunction: Function,
+            filteredBlog() {
+              this.$emit("search", this.form)
+            }
         },
         
     components: { BlogList },

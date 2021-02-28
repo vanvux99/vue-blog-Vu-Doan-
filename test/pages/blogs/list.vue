@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import BlogList from "@/components/BlogList.vue";
+import BlogList from '~/components/BlogList/BlogList.vue';
 
 export default {
   data() {
