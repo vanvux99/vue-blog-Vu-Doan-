@@ -3,7 +3,7 @@
     <!-- search -->
     <div v-if="isVisible" class="container-fluid mb-3 px-0">
       <search-blog @search="searchAPI($event)"></search-blog>
-      <data-table :filteredBlogs = "blogs"></data-table>
+      <!-- <data-table :filteredBlogs = "blogs"></data-table> -->
     </div>
 
     <!-- list -->
