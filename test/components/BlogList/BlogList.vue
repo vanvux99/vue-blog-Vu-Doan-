@@ -17,8 +17,8 @@
 import axios from "axios";
 import Search from "./search.vue"
 import DataTable from "./list.vue"
+import { SOURCE_LINK } from "~/const";
 
-const SOURCE_LINK = "http://localhost:3000/blogs/";
 
 export default {
   props:[
@@ -54,7 +54,7 @@ export default {
      */
     searchAPI(form) {
             axios
-        .get(source_link, {
+        .get(SOURCE_LINK, {
           params: {
             title_like: form.title
           }

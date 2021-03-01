@@ -49,28 +49,10 @@
 <script>
 
 import axios from "axios";
-
-const SOURCE_LINK = "http://localhost:3000/blogs/";
-
-const POSITIONS = [
-  { text: "Việt Nam", value: 1 },
-  { text: "Châu Á", value: 2 },
-  { text: "Châu Âu", value: 3 },
-  { text: "Châu Mỹ", value: 4 },
-]
-
-const CATEGORIES = [
-  { text: "Thời sự", value: 1 },
-  { text: "Thế giới", value: 2 },
-  { text: "Kinh doanh", value: 3 },
-  { text: "Giải trí", value: 4 },
-  { text: "Thể thao", value: 5 },
-]
-
-const PUBLICS = [
-  { text: "Yes", value: true },
-  { text: "No", value: false },
-]
+import { SOURCE_LINK } from "~/const";
+import { POSITIONS } from "~/const";
+import { CATEGORIES } from "~/const";
+import { PUBLICS } from "~/const";
 
 export default {
     props : [
@@ -124,7 +106,7 @@ export default {
      * @since 1-3-2021
      */
       changeCategory: function (category) {
-          return this.getCategoriPublicPosition(category, categories)
+          return this.getCategoriPublicPosition(category, this.categories)
       },
 
     /** changePublic
@@ -134,8 +116,8 @@ export default {
      * 
      * @since 1-3-2021
      */
-      changePublic: function (public) {
-          const item = publics.find(e => e.value === public)
+      changePublic: function (_publics) {
+          const item = this.publics.find(e => e.value === _publics)
           return item ? item.text : ''
       },
 
@@ -147,7 +129,7 @@ export default {
      * @since 1-3-2021
      */
       changePosition: function (position) {
-          return this.getCategoriPublicPosition(position, positions)
+          return this.getCategoriPublicPosition(position, this.positions)
       },
 
     /** call API take data server
@@ -161,7 +143,7 @@ export default {
         axios
           .get(SOURCE_LINK)
           .then((response) => {
-            console.log(response.data)
+            // console.log(response.data)
             this.blogs = response.data
             });
       },
@@ -174,7 +156,7 @@ export default {
      * @since 1-3-2021
      */
       deleteBlog: function (id) {
-        axios.delete(source_link + id).then(() => {
+        axios.delete(SOURCE_LINK + id).then(() => {
           alert("xóa thành công")
           this.$emit('deleted', true)
         });
